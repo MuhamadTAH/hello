@@ -1,45 +1,56 @@
-// server.js -- TikTok OAuth & Static Hosting
 require('dotenv').config();
 const express = require('express');
-const axios = require('axios');
+const session = require('express-session');
+const passport = require('passport');
+const TikTokStrategy = require('passport-tiktok').Strategy;
+const http = require('http');
+const socketIo = require('socket.io');
 const path = require('path');
+
+const { CLIENT_KEY, CLIENT_SECRET, CALLBACK_URL, SESSION_SECRET } = process.env;
+
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-// Load from .env for security
-const CLIENT_KEY = process.env.CLIENT_KEY || 'YOUR_TIKTOK_CLIENT_KEY';
-const CLIENT_SECRET = process.env.CLIENT_SECRET || 'YOUR_TIKTOK_CLIENT_SECRET';
-const REDIRECT_URI = process.env.REDIRECT_URI || 'https://your-glitch-project.glitch.me/callback';
+// Sessions
+app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
 
-// Serve static index.html
-app.use(express.static(path.join(__dirname)));
+passport.serializeUser((user, done) => done(null, user));
+passport.deserializeUser((obj, done) => done(null, obj));
 
-app.get('/callback', async (req, res) => {
-  const code = req.query.code;
-  if (!code) return res.status(400).send('Missing code parameter');
-  try {
-    const response = await axios.post('https://open.tiktokapis.com/v2/oauth/token/', {
-      client_key: CLIENT_KEY,
-      client_secret: CLIENT_SECRET,
-      code,
-      grant_type: 'authorization_code',
-      redirect_uri: REDIRECT_URI,
-    });
-    const user = response.data;
-    res.send(`
-      <h1>Logged in with TikTok!</h1>
-      <pre>${JSON.stringify(user, null, 2)}</pre>
-      <p><a href="/">Back to Home</a></p>
-    `);
-  } catch (error) {
-    console.error(error.response?.data || error.message);
-    res.status(500).send('Authentication error: ' + (error.response?.data?.message || error.message));
-  }
+passport.use(new TikTokStrategy({
+  clientID: CLIENT_KEY,
+  clientSecret: CLIENT_SECRET,
+  callbackURL: CALLBACK_URL
+}, (accessToken, refreshToken, profile, done) => {
+  return done(null, { profile, accessToken });
+}));
+
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Auth routes
+app.get('/auth/tiktok', passport.authenticate('tiktok'));
+app.get('/auth/tiktok/callback', passport.authenticate('tiktok', { failureRedirect: '/' }), (req, res) => {
+  res.redirect('/');
+});
+
+// Middleware to ensure login
+function ensureAuth(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  res.redirect('/auth/tiktok');
+}
+
+// Chat functionality
+io.on('connection', socket => {
+  const user = socket.request.session.passport?.user.profile.displayName || 'Guest';
+  socket.on('chatMessage', text => {
+    io.emit('chatMessage', { user, text });
+  });
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-// .env file (create in root):
-// CLIENT_KEY=YOUR_TIKTOK_CLIENT_KEY
-// CLIENT_SECRET=YOUR_TIKTOK_CLIENT_SECRET
-// REDIRECT_URI=https://your-glitch-project.glitch.me/callback
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
