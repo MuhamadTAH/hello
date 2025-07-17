@@ -1,25 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SubScribe - Your Digital Subscription Service</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css" />
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.1.0/",
-    "react": "https://esm.sh/react@^19.1.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.0/"
-  }
-}
-</script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Subscription Service</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header, footer {
+      background: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    .container {
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+    .plan {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .plan h2 {
+      margin-top: 0;
+    }
+    .plan button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      margin-top: 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 5px;
+    }
+    .plan button:hover {
+      background: #45a049;
+    }
+    nav a {
+      margin: 0 1rem;
+      color: white;
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 1rem;
+      }
+    }
+  </style>
 </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="index.tsx"></script>
-  </body>
+<body>
+
+<header>
+  <h1>Subscribe to Our Service</h1>
+  <nav>
+    <a href="#privacy">Privacy Policy</a> |
+    <a href="#terms">Terms of Service</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="plan">
+    <h2>Monthly Plan</h2>
+    <p>$9.99 per month</p>
+    <button onclick="alert('Subscription feature coming soon!')">Subscribe</button>
+  </div>
+
+  <div class="plan">
+    <h2>Yearly Plan</h2>
+    <p>$99.99 per year</p>
+    <button onclick="alert('Subscription feature coming soon!')">Subscribe</button>
+  </div>
+<a href="https://www.tiktok.com/v2/auth/authorize/?client_key=YOUR_TIKTOK_CLIENT_KEY&scope=user.info.basic&response_type=code&redirect_uri=https://your-glitch-project.glitch.me/callback">
+  <img src="https://developers.tiktok.com/assets/images/buttons/white-login-tiktok.svg" alt="Login with TikTok" style="width:200px;">
+</a>
+
+  <section id="privacy">
+    <h2>Privacy Policy</h2>
+    <p>This is a placeholder for the Privacy Policy. You can replace it with your real policy text.</p>
+  </section>
+
+  <section id="terms">
+    <h2>Terms of Service</h2>
+    <p>This is a placeholder for the Terms of Service. You can replace it with your real terms.</p>
+  </section>
+</div>
+
+<footer>
+  &copy; 2025 My Subscription Service. All rights reserved.
+</footer>
+
+</body>
 </html>
