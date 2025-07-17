@@ -1,9 +1,12 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Subscription Service</title>
+  <!-- TikTok Site Verification -->
+  <meta name="tiktok-site-verification" content="YOUR_VERIFICATION_CODE" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -32,9 +35,7 @@
       text-align: center;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
-    .plan h2 {
-      margin-top: 0;
-    }
+    .plan h2 { margin-top: 0; }
     .plan button {
       background: #4CAF50;
       color: white;
@@ -45,23 +46,18 @@
       font-size: 1rem;
       border-radius: 5px;
     }
-    .plan button:hover {
-      background: #45a049;
-    }
+    .plan button:hover { background: #45a049; }
     nav a {
       margin: 0 1rem;
       color: white;
       text-decoration: underline;
     }
     @media (max-width: 600px) {
-      .container {
-        padding: 1rem;
-      }
+      .container { padding: 1rem; }
     }
   </style>
 </head>
 <body>
-
 <header>
   <h1>Subscribe to Our Service</h1>
   <nav>
@@ -69,37 +65,53 @@
     <a href="#terms">Terms of Service</a>
   </nav>
 </header>
-
 <div class="container">
   <div class="plan">
     <h2>Monthly Plan</h2>
     <p>$9.99 per month</p>
-    <button onclick="alert('Subscription feature coming soon!')">Subscribe</button>
+    <button onclick="alert('Subscription coming soon!')">Subscribe</button>
   </div>
-
   <div class="plan">
     <h2>Yearly Plan</h2>
     <p>$99.99 per year</p>
-    <button onclick="alert('Subscription feature coming soon!')">Subscribe</button>
+    <button onclick="alert('Subscription coming soon!')">Subscribe</button>
   </div>
-<a href="https://www.tiktok.com/v2/auth/authorize/?client_key=YOUR_TIKTOK_CLIENT_KEY&scope=user.info.basic&response_type=code&redirect_uri=https://your-glitch-project.glitch.me/callback">
-  <img src="https://developers.tiktok.com/assets/images/buttons/white-login-tiktok.svg" alt="Login with TikTok" style="width:200px;">
-</a>
-
+  <!-- TikTok Login Button -->
+  <div style="text-align:center; margin:2rem 0;">
+    <a href="https://www.tiktok.com/v2/auth/authorize/?client_key=YOUR_TIKTOK_CLIENT_KEY&scope=user.info.basic&response_type=code&redirect_uri=https://your-glitch-project.glitch.me/callback">
+      <img src="https://developers.tiktok.com/assets/images/buttons/white-login-tiktok.svg" alt="Login with TikTok" style="width:200px;" />
+    </a>
+  </div>
+  <!-- Privacy & Terms Sections -->
   <section id="privacy">
     <h2>Privacy Policy</h2>
-    <p>This is a placeholder for the Privacy Policy. You can replace it with your real policy text.</p>
+    <p>This is a placeholder for the Privacy Policy. Replace this with your full policy text that explains how you collect, use, and share user data, including TikTok data.</p>
   </section>
-
   <section id="terms">
     <h2>Terms of Service</h2>
-    <p>This is a placeholder for the Terms of Service. You can replace it with your real terms.</p>
+    <p>This is a placeholder for the Terms of Service. Replace this with your detailed terms that users must agree to before using your service.</p>
   </section>
 </div>
-
 <footer>
   &copy; 2025 My Subscription Service. All rights reserved.
 </footer>
 
+<!-- TikTok Pixel Integration -->
+<script>
+  !function(w,d,t){
+    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
+    ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie"];
+    ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+    for(var i=0;i<ttq.methods.length;i++){ttq.setAndDefer(ttq,ttq.methods[i])}
+    ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";
+      ttq._i=ttq._i||[];ttq._i.push([e,n]);
+      var o=d.createElement("script");o.type="text/javascript";o.async=!0;o.src=i;
+      var a=d.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a);
+    };
+    ttq.load('YOUR_PIXEL_ID');
+    ttq.page();
+  }(window, document, 'ttq');
+</script>
 </body>
 </html>
+
